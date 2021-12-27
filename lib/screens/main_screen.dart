@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/widgets/alert_dialog_widget.dart';
 import 'package:todo_app/widgets/todo_list_widget.dart';
+import 'package:todo_app/models/todo_task_model.dart';
 
 class TodoApp extends StatefulWidget {
   const TodoApp({Key? key}) : super(key: key);
@@ -12,18 +13,15 @@ class TodoApp extends StatefulWidget {
 
 class _TodoAppState extends State<TodoApp> {
 
-  List<String> todos = [];
+  List<TodoTaskModel> _todos = [];
   String _input = "";
-
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    todos.add("item1");
-    todos.add("item2");
-    todos.add("item3");
-    todos.add("item4");
+    for (int i = 1; i<5; i++) {
+      _todos.add(TodoTaskModel(todo: 'item $i'));
+    }
   }
 
   @override
@@ -32,7 +30,7 @@ class _TodoAppState extends State<TodoApp> {
       appBar: AppBar(
         title: Text(Strings.appTitle)
       ),
-      body: TodoListWidget(todos: todos),
+      body: TodoListWidget(todos: _todos),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
@@ -44,7 +42,7 @@ class _TodoAppState extends State<TodoApp> {
                 },
                 onPress: () {
                   setState(() {
-                    todos.add(_input);
+                    _todos.add(TodoTaskModel(todo: _input));
                   });
                   Navigator.of(context).pop();
                   FocusScope.of(context).requestFocus(FocusNode());
