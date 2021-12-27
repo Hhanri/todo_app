@@ -1,16 +1,20 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo_task_model.dart';
 import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/widgets/text_button_widget.dart';
 
 class AlertDialogWidget extends StatefulWidget {
-
+  final List<TodoTaskModel> todos;
+  final VoidCallback onPress;
   final ValueChanged onChange;
-  final GestureTapCallback onPress;
 
   const AlertDialogWidget({
     Key? key,
-    required this.onChange,
+    required this.todos,
     required this.onPress,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -18,6 +22,7 @@ class AlertDialogWidget extends StatefulWidget {
 }
 
 class _AlertDialogWidgetState extends State<AlertDialogWidget> {
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -29,7 +34,7 @@ class _AlertDialogWidgetState extends State<AlertDialogWidget> {
       ),
       actions: <Widget>[
         TextButtonWidget(
-          onPress: widget.onPress
+          onPress: widget.onPress,
         )
       ],
     );

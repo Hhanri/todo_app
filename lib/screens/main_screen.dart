@@ -30,19 +30,26 @@ class _TodoAppState extends State<TodoApp> {
       appBar: AppBar(
         title: Text(Strings.appTitle)
       ),
-      body: TodoListWidget(todos: _todos),
+      body: TodoListWidget(
+        todos: _todos,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialogWidget(
+                todos: _todos,
                 onChange: (value) {
                   _input = value;
                 },
                 onPress: () {
                   setState(() {
-                    _todos.add(TodoTaskModel(todo: _input));
+                    _todos.add(
+                      TodoTaskModel(
+                        todo: _input
+                      )
+                    );
                   });
                   Navigator.of(context).pop();
                   FocusScope.of(context).requestFocus(FocusNode());

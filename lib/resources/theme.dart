@@ -5,3 +5,7 @@ ThemeData theme = ThemeData(
   primaryColor: Colors.blue,
   accentColor: Colors.orange,
 );
+
+class MyShapes {
+  static BorderRadiusGeometry circularBorders = BorderRadius.circular(8.0);
+}
