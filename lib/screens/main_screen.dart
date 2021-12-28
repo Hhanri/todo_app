@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/resources/strings.dart';
+import 'package:todo_app/utils/navigation_utils.dart';
 import 'package:todo_app/widgets/alert_dialog_widget.dart';
 import 'package:todo_app/widgets/todo_list_widget.dart';
 import 'package:todo_app/models/todo_task_model.dart';
+import 'package:todo_app/models/todo_task_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class TodoApp extends StatefulWidget {
   const TodoApp({Key? key}) : super(key: key);
@@ -13,56 +17,62 @@ class TodoApp extends StatefulWidget {
 
 class _TodoAppState extends State<TodoApp> {
 
-  List<TodoTaskModel> _todos = [];
   String _input = "";
 
   @override
-  void initState() {
-    super.initState();
-    for (int i = 1; i<5; i++) {
-      _todos.add(TodoTaskModel(todo: 'item $i'));
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Strings.appTitle)
-      ),
-      body: TodoListWidget(
-        todos: _todos,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialogWidget(
-                todos: _todos,
-                onChange: (value) {
-                  _input = value;
-                },
-                onPress: () {
-                  setState(() {
-                    _todos.add(
-                      TodoTaskModel(
-                        todo: _input
-                      )
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (BuildContext initFirebaseContext, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasError) {
+          NavigationUtils.showMyDialog(context: initFirebaseContext, bodyText: Strings.errorFirebaseInit);
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return StreamBuilder<QuerySnapshot<dynamic>>(
+            stream: FirebaseFirestore.instance.collection(Strings.TodoCollection).snapshots(),
+            builder: (context, snapshots) {
+              List<QueryDocumentSnapshot<dynamic>> _docs = snapshots.data!.docs;
+              List<TodoTaskModel> _todoTaskModel = TodoTaskModel.decodeTodoTask(_docs);
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(Strings.appTitle)
+                ),
+                body: TodoListWidget(
+                  todos: _todoTaskModel,
+                ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialogWidget(
+                          todos: _todoTaskModel,
+                          onChange: (value) {
+                            _input = value;
+                          },
+                          onPress: () {
+                            createTodos(
+                              todo: _input
+                            );
+                            Navigator.of(context).pop();
+                            FocusScope.of(context).requestFocus(
+                              FocusNode());
+                          },
+                        );
+                      }
                     );
-                  });
-                  Navigator.of(context).pop();
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white
+                  ),
+                ),
               );
             }
           );
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white
-        ),
-      ),
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }

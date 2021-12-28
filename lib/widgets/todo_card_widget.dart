@@ -1,19 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todo_app/models/todo_task_model.dart';
+import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/resources/theme.dart';
 
 class TodoCardWidget extends StatelessWidget {
   final int index;
   final List<TodoTaskModel> todos;
-  final VoidCallback onPress;
-  final DismissDirectionCallback onDismiss;
+  //final VoidCallback onPress;
+  //final DismissDirectionCallback onDismiss;
   const TodoCardWidget({
     Key? key,
     required this.todos,
     required this.index,
-    required this.onPress,
-    required this.onDismiss,
+    //required this.onPress,
+    //required this.onDismiss,
   }) : super(key: key);
 
   @override
@@ -35,11 +37,15 @@ class TodoCardWidget extends StatelessWidget {
               Icons.delete,
               color: Colors.red,
             ),
-            onPressed: onPress,
+            onPressed: () {
+              deleteTodos(item: todos[index].todo);
+            },
           ),
         )
       ),
-      onDismissed: onDismiss,
+      onDismissed: (_) {
+        deleteTodos(item: todos[index].todo);
+      },
     );
   }
 }

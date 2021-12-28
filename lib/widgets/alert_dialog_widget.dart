@@ -28,9 +28,12 @@ class _AlertDialogWidgetState extends State<AlertDialogWidget> {
     return AlertDialog(
       title: Text(Strings.addTodoList),
       content: TextField(
-          onChanged: (String value) {
-            widget.onChange(value);
-          }
+        decoration: InputDecoration(
+          hintText: Strings.hintYourTodo
+        ),
+        onChanged: (String value) {
+          widget.onChange(value);
+        }
       ),
       actions: <Widget>[
         TextButtonWidget(
