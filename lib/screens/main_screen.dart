@@ -60,9 +60,10 @@ class _TodoAppState extends State<TodoApp> {
                                   deadline: _date
                               );
                             }
+                            _input = "";
+                            _date = null;
                             Navigator.of(context).pop();
-                            FocusScope.of(context).requestFocus(
-                              FocusNode());
+                            FocusScope.of(context).requestFocus(FocusNode());
                           },
                         );
                       }
