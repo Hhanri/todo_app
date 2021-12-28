@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_app/resources/strings.dart';
 
@@ -19,8 +18,8 @@ class TodoTaskModel {
 
   factory TodoTaskModel.fromJson(Map<String, dynamic> jsonData) {
     return TodoTaskModel(
-        todo: jsonData[Strings.todoTaskModelTitle],
-        //deadLine: jsonData[Strings.todoTaskModelDeadline].toDate(),
+      todo: jsonData[Strings.todoTaskModelTitle],
+      deadLine: jsonData[Strings.todoTaskModelDeadline]?.toDate(),
     );
   }
 

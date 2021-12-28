@@ -1,21 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:todo_app/models/todo_task_model.dart';
-import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/resources/theme.dart';
+import 'package:todo_app/utils/format_utils.dart';
 
 class TodoCardWidget extends StatelessWidget {
   final int index;
   final List<TodoTaskModel> todos;
-  //final VoidCallback onPress;
-  //final DismissDirectionCallback onDismiss;
   const TodoCardWidget({
     Key? key,
     required this.todos,
     required this.index,
-    //required this.onPress,
-    //required this.onDismiss,
   }) : super(key: key);
 
   @override
@@ -25,21 +19,42 @@ class TodoCardWidget extends StatelessWidget {
         todos[index].todo
       ),
       child: Card(
+        color: todos[index].deadLine?.getCardColor(),
         elevation: 3,
         margin: EdgeInsets.all(8),
         shape: RoundedRectangleBorder(
           borderRadius: MyShapes.circularBorders
         ),
-        child: ListTile(
-          title: Text(todos[index].todo),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.delete,
-              color: Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal:2, vertical: 4.0),
+          child: ListTile(
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                todos[index].todo,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ),
-            onPressed: () {
-              deleteTodos(item: todos[index].todo);
-            },
+            subtitle: (todos[index].deadLine != null)
+              ? Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                    todos[index].deadLine.displayDate(),
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: todos[index].deadLine?.getDateColor()
+                    ),
+                ),
+              )
+              : null,
+            trailing: IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: todos[index].deadLine?.getIconColor(),
+              ),
+              onPressed: () {
+                deleteTodos(item: todos[index].todo);
+              },
+            ),
           ),
         )
       ),

@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   cloud_firestore: ^3.1.5
+  intl: ^0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -74,10 +75,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: 'Sana'
+      fonts:
+        - asset: assets/fonts/Sana Sans Alt W00 Regular.ttf
+
+    - family: 'Hirogano'
+      fonts:
+        - asset: assets/fonts/Hiragino Maru Gothic ProN W4.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

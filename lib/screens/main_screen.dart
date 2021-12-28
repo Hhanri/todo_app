@@ -5,7 +5,6 @@ import 'package:todo_app/utils/navigation_utils.dart';
 import 'package:todo_app/widgets/alert_dialog_widget.dart';
 import 'package:todo_app/widgets/todo_list_widget.dart';
 import 'package:todo_app/models/todo_task_model.dart';
-import 'package:todo_app/models/todo_task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class TodoApp extends StatefulWidget {
@@ -18,6 +17,7 @@ class TodoApp extends StatefulWidget {
 class _TodoAppState extends State<TodoApp> {
 
   String _input = "";
+  DateTime? _date;
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,19 @@ class _TodoAppState extends State<TodoApp> {
                       builder: (BuildContext context) {
                         return AlertDialogWidget(
                           todos: _todoTaskModel,
-                          onChange: (value) {
+                          onTodoChange: (value) {
                             _input = value;
                           },
+                          onDateChange: (value) {
+                            _date = value;
+                          },
                           onPress: () {
-                            createTodos(
-                              todo: _input
-                            );
+                            if (_input != "") {
+                              createTodos(
+                                  todo: _input,
+                                  deadline: _date
+                              );
+                            }
                             Navigator.of(context).pop();
                             FocusScope.of(context).requestFocus(
                               FocusNode());

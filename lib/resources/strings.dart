@@ -15,4 +15,5 @@ class Strings {
   static const String errorFirebaseInit = "Erreur d'initialisation Firebase";
 
   static const String hintYourTodo = "Your Todo...";
+  static const String hintDate = "Date";
 }
