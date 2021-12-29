@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-ThemeData theme = ThemeData(
-  brightness: Brightness.light,
-  primaryColor: Colors.blue,
-  textTheme: TextTheme(
-    bodyText1: MyTextStyles.todoTitle,
-    bodyText2: MyTextStyles.dateTitle
-  ),
-);
+class ThemeProvider extends ChangeNotifier {
+  ThemeMode themeMode = ThemeMode.dark;
+  bool get isDarkMode => themeMode == ThemeMode.dark;
+
+  void toggleTheme(bool isOn) {
+    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
+}
+
+class MyThemes {
+  static final darkTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.grey.shade900,
+    colorScheme: ColorScheme.dark(),
+    //brightness: Brightness.dark,
+    primaryColor: Colors.blue.shade300,
+    textTheme: TextTheme(
+        bodyText1: MyTextStyles.todoTitle,
+        bodyText2: MyTextStyles.dateTitle
+    ),
+  );
+
+  static final lighTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
+    //colorScheme: ColorScheme.light(),
+    //brightness: Brightness.light,
+    primaryColor: Colors.blue,
+    textTheme: TextTheme(
+        bodyText1: MyTextStyles.todoTitle,
+        bodyText2: MyTextStyles.dateTitle
+    ),
+  );
+}
 
 class MyTextStyles {
 
@@ -45,21 +71,17 @@ class MyShapes {
 }
 
 extension CardColor on DateTime{
-  Color getCardColor() {
+  Color? getCardColor() {
     if (DateTime.now().isAfter(this)) {
       return Colors.redAccent;
-    } else {
-      return Colors.white;
-    }
+    };
   }
 }
 
 extension IconColor on DateTime{
-  Color getIconColor() {
+  Color? getIconColor() {
     if (DateTime.now().isAfter(this)) {
       return Colors.black;
-    } else {
-      return Colors.red;
     }
   }
 }

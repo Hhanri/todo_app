@@ -16,4 +16,6 @@ class Strings {
 
   static const String hintYourTodo = "Your Todo...";
   static const String hintDate = "Date";
+
+  static const String nightMode = "Night Mode";
 }

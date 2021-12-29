@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/utils/navigation_utils.dart';
 import 'package:todo_app/widgets/alert_dialog_widget.dart';
+import 'package:todo_app/widgets/change_theme_button_widget.dart';
 import 'package:todo_app/widgets/todo_list_widget.dart';
 import 'package:todo_app/models/todo_task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,11 +32,22 @@ class _TodoAppState extends State<TodoApp> {
           return StreamBuilder<QuerySnapshot<dynamic>>(
             stream: FirebaseFirestore.instance.collection(Strings.TodoCollection).snapshots(),
             builder: (context, snapshots) {
-              List<QueryDocumentSnapshot<dynamic>> _docs = snapshots.data!.docs;
+              List<QueryDocumentSnapshot<dynamic>> _docs = snapshots.data?.docs ?? [];
               List<TodoTaskModel> _todoTaskModel = TodoTaskModel.decodeTodoTask(_docs);
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(Strings.appTitle)
+                  title: Text(Strings.appTitle),
+                  actions: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                        Strings.nightMode,
+                      ),
+                        ChangeThemeButtonWidget()
+                      ],
+                    )
+                  ],
                 ),
                 body: TodoListWidget(
                   todos: _todoTaskModel,
