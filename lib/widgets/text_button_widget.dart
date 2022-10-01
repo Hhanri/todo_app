@@ -19,7 +19,7 @@ class _TextButtonWidgetState extends State<TextButtonWidget> {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: widget.onPress,
-        child: Text(Strings.addTodoListButton)
+        child: const Text(Strings.addTodoListButton)
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.dark;
@@ -14,10 +13,10 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
-    colorScheme: ColorScheme.dark(),
+    colorScheme: const ColorScheme.dark(),
     //brightness: Brightness.dark,
     primaryColor: Colors.blue.shade300,
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
         bodyText1: MyTextStyles.todoTitle,
         bodyText2: MyTextStyles.dateTitle
     ),
@@ -28,7 +27,7 @@ class MyThemes {
     //colorScheme: ColorScheme.light(),
     //brightness: Brightness.light,
     primaryColor: Colors.blue,
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
         bodyText1: MyTextStyles.todoTitle,
         bodyText2: MyTextStyles.dateTitle
     ),
@@ -44,7 +43,7 @@ class MyTextStyles {
     letterSpacing: 0.2,
       shadows: <Shadow>[
         Shadow(
-          color: const Color(0x29000000),
+          color: Color(0x29000000),
           offset: Offset(2,3),
           blurRadius: 6,
         )
@@ -57,7 +56,7 @@ class MyTextStyles {
     fontWeight: FontWeight.w500,
     shadows: <Shadow>[
       Shadow(
-        color: const Color(0x29000000),
+        color: Color(0x29000000),
         offset: Offset(2,3),
         blurRadius: 6,
       )
@@ -72,9 +71,8 @@ class MyShapes {
 
 extension CardColor on DateTime{
   Color? getCardColor() {
-    if (DateTime.now().isAfter(this)) {
-      return Colors.redAccent;
-    };
+    if (DateTime.now().isAfter(this)) return Colors.redAccent;
+    return null;
   }
 }
 
@@ -83,6 +81,7 @@ extension IconColor on DateTime{
     if (DateTime.now().isAfter(this)) {
       return Colors.black;
     }
+    return null;
   }
 }
 

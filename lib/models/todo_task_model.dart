@@ -45,7 +45,7 @@ void createTodos({required String todo, DateTime? deadline}){
   );
   FirebaseFirestore
       .instance
-      .collection(Strings.TodoCollection)
+      .collection(Strings.todoCollection)
       .doc(_todoTaskModel.todo)
       .set(TodoTaskModel.toMap(_todoTaskModel));
 }
@@ -53,7 +53,7 @@ void createTodos({required String todo, DateTime? deadline}){
 void deleteTodos({required String item}) {
   FirebaseFirestore
       .instance
-      .collection(Strings.TodoCollection)
+      .collection(Strings.todoCollection)
       .doc(item)
       .delete();
 }

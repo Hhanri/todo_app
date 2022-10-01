@@ -1,20 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/todo_task_model.dart';
 import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/widgets/text_button_widget.dart';
 import 'package:todo_app/widgets/text_field_widget.dart';
 
 class AlertDialogWidget extends StatefulWidget {
-  final List<TodoTaskModel> todos;
   final VoidCallback onPress;
   final ValueChanged? onTodoChange;
   final ValueChanged? onDateChange;
 
   const AlertDialogWidget({
     Key? key,
-    required this.todos,
     required this.onPress,
     required this.onTodoChange,
     required this.onDateChange,
@@ -30,7 +25,7 @@ class _AlertDialogWidgetState extends State<AlertDialogWidget> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: Text(Strings.addTodoList),
+      title: const Text(Strings.addTodoList),
       content: Column(
         children: [
           TextFieldWidget(

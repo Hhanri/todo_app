@@ -4,24 +4,22 @@ import 'package:todo_app/resources/theme.dart';
 import 'package:todo_app/utils/format_utils.dart';
 
 class TodoCardWidget extends StatelessWidget {
-  final int index;
-  final List<TodoTaskModel> todos;
+  final TodoTaskModel todo;
   const TodoCardWidget({
     Key? key,
-    required this.todos,
-    required this.index,
+    required this.todo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: Key(
-        todos[index].todo
+        todo.todo
       ),
       child: Card(
-        color: todos[index].deadLine?.getCardColor(),
+        color: todo.deadLine?.getCardColor(),
         elevation: 3,
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         shape: RoundedRectangleBorder(
           borderRadius: MyShapes.circularBorders
         ),
@@ -31,17 +29,17 @@ class TodoCardWidget extends StatelessWidget {
             title: Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
-                todos[index].todo,
+                todo.todo,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
-            subtitle: (todos[index].deadLine != null)
+            subtitle: (todo.deadLine != null)
               ? Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                    todos[index].deadLine.displayDate(),
+                    todo.deadLine.displayDate(),
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: todos[index].deadLine?.getDateColor()
+                      color: todo.deadLine?.getDateColor()
                     ),
                 ),
               )
@@ -49,17 +47,17 @@ class TodoCardWidget extends StatelessWidget {
             trailing: IconButton(
               icon: Icon(
                 Icons.delete,
-                color: todos[index].deadLine?.getIconColor(),
+                color: todo.deadLine?.getIconColor(),
               ),
               onPressed: () {
-                deleteTodos(item: todos[index].todo);
+                deleteTodos(item: todo.todo);
               },
             ),
           ),
         )
       ),
       onDismissed: (_) {
-        deleteTodos(item: todos[index].todo);
+        deleteTodos(item: todo.todo);
       },
     );
   }

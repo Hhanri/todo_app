@@ -4,7 +4,7 @@ import 'package:todo_app/resources/strings.dart';
 import 'package:todo_app/utils/navigation_utils.dart';
 import 'package:todo_app/widgets/alert_dialog_widget.dart';
 import 'package:todo_app/widgets/change_theme_button_widget.dart';
-import 'package:todo_app/widgets/todo_list_widget.dart';
+import 'package:todo_app/widgets/todo_card_widget.dart';
 import 'package:todo_app/models/todo_task_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -30,17 +30,16 @@ class _TodoAppState extends State<TodoApp> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return StreamBuilder<QuerySnapshot<dynamic>>(
-            stream: FirebaseFirestore.instance.collection(Strings.TodoCollection).snapshots(),
+            stream: FirebaseFirestore.instance.collection(Strings.todoCollection).snapshots(),
             builder: (context, snapshots) {
-              List<QueryDocumentSnapshot<dynamic>> _docs = snapshots.data?.docs ?? [];
-              List<TodoTaskModel> _todoTaskModel = TodoTaskModel.decodeTodoTask(_docs);
+              //List<QueryDocumentSnapshot<dynamic>> _docs = snapshots.data?.docs ?? [];
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(Strings.appTitle),
+                  title: const Text(Strings.appTitle),
                   actions: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                         Strings.nightMode,
                       ),
@@ -49,8 +48,13 @@ class _TodoAppState extends State<TodoApp> {
                     )
                   ],
                 ),
-                body: TodoListWidget(
-                  todos: _todoTaskModel,
+                body: ListView.builder(
+                    itemCount: snapshots.data?.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TodoCardWidget(
+                        todo: TodoTaskModel.fromJson(snapshots.data?.docs[index].data()),
+                      );
+                    }
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -58,7 +62,6 @@ class _TodoAppState extends State<TodoApp> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialogWidget(
-                          todos: _todoTaskModel,
                           onTodoChange: (value) {
                             _input = value;
                           },
@@ -81,7 +84,7 @@ class _TodoAppState extends State<TodoApp> {
                       }
                     );
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.white
                   ),
@@ -90,7 +93,7 @@ class _TodoAppState extends State<TodoApp> {
             }
           );
         }
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
   }

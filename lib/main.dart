@@ -14,10 +14,9 @@ void main() {
           themeMode: themeProvider.themeMode,
           theme: MyThemes.lighTheme,
           darkTheme: MyThemes.darkTheme,
-          home: TodoApp(),
+          home: const TodoApp(),
         );
       },
-
     ),
   );
 }
